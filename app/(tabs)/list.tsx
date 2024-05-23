@@ -1,18 +1,18 @@
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { useEffect, useState } from "react";
-import { Button, StyleSheet, useColorScheme } from "react-native";
-import { collection, getDocs, DocumentData } from "firebase/firestore";
-import { db } from "@/firebaseConfig";
-import { ThemedText } from "@/components/ThemedText";
-import { Money } from "@/components/Money";
-import { ThemedView } from "@/components/ThemedView";
-import Divider from "@/components/Divider";
 import Avatar from "@/components/Avatar";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import Divider from "@/components/Divider";
+import { Money } from "@/components/Money";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { Coin } from "@/constants/Coin";
 import { Value } from "@/constants/Value";
+import { db } from "@/firebaseConfig";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { Link } from "expo-router";
+import { DocumentData, collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { StyleSheet, useColorScheme } from "react-native";
 
 const ListPage = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -23,16 +23,6 @@ const ListPage = () => {
 
   const reloadPage = () => {
     setReload(true);
-  };
-
-  const valueRequest = async (coin: DocumentData): Promise<Value[]> => {
-    const valuesSnapshot = await getDocs(collection(coin.ref, "value"));
-    const values = valuesSnapshot.docs.map((value) => ({
-      id: value.id,
-      ...value.data(),
-    }));
-
-    return values.sort((a: any, b: any) => b.date.seconds - a.date.seconds);
   };
 
   useEffect(() => {
@@ -52,6 +42,16 @@ const ListPage = () => {
       request();
     }
   }, [reload]);
+
+  const valueRequest = async (coin: DocumentData): Promise<Value[]> => {
+    const valuesSnapshot = await getDocs(collection(coin.ref, "value"));
+    const values = valuesSnapshot.docs.map((value) => ({
+      id: value.id,
+      ...value.data(),
+    }));
+
+    return values.sort((a: any, b: any) => b.date.seconds - a.date.seconds);
+  };
 
   return (
     <ParallaxScrollView
