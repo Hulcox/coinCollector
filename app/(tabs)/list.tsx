@@ -11,17 +11,8 @@ import Divider from "@/components/Divider";
 import Avatar from "@/components/Avatar";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-
-type Coin = {
-  id: string;
-  [key: string]: any;
-  values?: Value[];
-};
-
-type Value = {
-  id: string;
-  [key: string]: any;
-};
+import { Coin } from "@/constants/Coin";
+import { Value } from "@/constants/Value";
 
 const ListPage = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -85,8 +76,14 @@ const ListPage = () => {
       </ThemedView>
       {coins?.map((coin, key: any) => (
         <ThemedView key={key} style={{ flexDirection: "column", gap: 10 }}>
-          <ThemedView style={styles.coinList}>
-            <Link href={"/"}>
+          <Link
+            style={{ width: "100%" }}
+            href={{
+              pathname: "/coinDetail/[coinId]",
+              params: { id: coin.id },
+            }}
+          >
+            <ThemedView style={styles.coinList}>
               <ThemedView style={styles.coinStyle}>
                 <Avatar>
                   <ThemedText type="defaultBold" style={{ color: "black" }}>
@@ -103,30 +100,31 @@ const ListPage = () => {
                   </ThemedText>
                 </ThemedView>
               </ThemedView>
-            </Link>
-            <ThemedView
-              style={{ flexDirection: "column", alignItems: "flex-end" }}
-            >
-              <ThemedView style={styles.titleContainer}>
-                <ThemedText>
-                  {coin.values ? coin.values[0]?.price : "0"}
-                </ThemedText>
-                <FontAwesome
-                  size={15}
-                  name="dollar"
-                  color={color[colorScheme]}
-                />
-              </ThemedView>
 
-              <ThemedText style={{ fontSize: 12 }}>
-                {coin.values
-                  ? new Date(
-                      coin.values[0]?.date?.seconds * 1000
-                    ).toLocaleDateString()
-                  : "0"}
-              </ThemedText>
+              <ThemedView
+                style={{ flexDirection: "column", alignItems: "flex-end" }}
+              >
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText>
+                    {coin.values ? coin.values[0]?.price : "0"}
+                  </ThemedText>
+                  <FontAwesome
+                    size={15}
+                    name="dollar"
+                    color={color[colorScheme]}
+                  />
+                </ThemedView>
+
+                <ThemedText style={{ fontSize: 12 }}>
+                  {coin.values
+                    ? new Date(
+                        coin.values[0]?.date?.seconds * 1000
+                      ).toLocaleDateString()
+                    : "0"}
+                </ThemedText>
+              </ThemedView>
             </ThemedView>
-          </ThemedView>
+          </Link>
           <Divider type="horizontal" />
         </ThemedView>
       ))}
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     color: "white",
+    width: "100%",
   },
   coinStyle: {
     flexDirection: "row",

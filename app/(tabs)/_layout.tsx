@@ -51,6 +51,12 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="coinDetail/[coinId]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
