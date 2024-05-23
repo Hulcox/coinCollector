@@ -14,7 +14,8 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import { LineChart } from "react-native-chart-kit";
 
 export default function DetailsScreen() {
   const [coin, setCoin] = useState<Coin>();
@@ -87,6 +88,46 @@ export default function DetailsScreen() {
             </ThemedText>
           </Avatar>
         </ThemedView>
+      </ThemedView>
+      <ThemedView
+        style={{
+          margin: 30,
+          width: "90%",
+          backgroundColor: "#333533",
+        }}
+      >
+        <LineChart
+          data={{
+            labels:
+              coin.values?.map((value) =>
+                new Date(value.date.seconds * 1000).toLocaleDateString()
+              ) ?? [],
+            datasets: [
+              {
+                data: coin.values?.map((value) => value.price) ?? [],
+                strokeWidth: 5,
+              },
+            ],
+          }}
+          width={Dimensions.get("window").width} // from react-native
+          height={220}
+          yAxisLabel="$"
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(245, 203, 92, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726",
+            },
+          }}
+          bezier
+        />
       </ThemedView>
     </ParallaxScrollView>
   );
