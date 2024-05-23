@@ -1,9 +1,11 @@
 import Avatar from "@/components/Avatar";
+import { Collapsible } from "@/components/Collapsible";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { CoinType } from "@/constants/Coin";
-import { db } from "@/firebaseConfig"; // Assurez-vous que c'est le chemin correct vers votre configuration Firebase
+import { db } from "@/firebaseConfig";
+import { FontAwesome } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useLocalSearchParams } from "expo-router";
 import {
@@ -14,7 +16,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 export default function DetailsScreen() {
@@ -54,8 +56,7 @@ export default function DetailsScreen() {
         <ThemedView
           style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
-          <ThemedText>Loading ...</ThemedText>{" "}
-          {/* Remplacez 'name' par la propriété appropriée de votre objet 'coin' */}
+          <ThemedText>Loading ...</ThemedText>
         </ThemedView>
       </ParallaxScrollView>
     );
@@ -76,29 +77,33 @@ export default function DetailsScreen() {
         }}
       >
         <ThemedView
-          style={{ flexDirection: "row", justifyContent: "space-between" }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          <ThemedView style={styles.titleStyle}>
-            <ThemedText
+          <ThemedView style={{ flexDirection: "column", alignItems: "center" }}>
+            <Text
               style={{
-                fontSize: 40,
+                fontSize: 50,
                 fontWeight: "bold",
                 color: "#F5CB5C",
                 fontFamily: "SpaceMono",
               }}
             >
               {coin.shortName}
+            </Text>
+            <ThemedText type="defaultBold" style={{ color: "white" }}>
+              {coin.name}
             </ThemedText>
-            <Avatar>
-              <ThemedText type="defaultBold" style={{ color: "black" }}>
-                {coin.shortName}
-              </ThemedText>
-            </Avatar>
           </ThemedView>
+          <Avatar>
+            <ThemedText type="defaultBold" style={{ color: "black" }}>
+              {coin.shortName}
+            </ThemedText>
+          </Avatar>
         </ThemedView>
-        <ThemedText type="defaultBold" style={{ color: "black" }}>
-          {coin.name}
-        </ThemedText>
         <LineChart
           data={{
             labels:
@@ -112,14 +117,14 @@ export default function DetailsScreen() {
               },
             ],
           }}
-          width={Dimensions.get("window").width} // from react-native
+          width={Dimensions.get("window").width - 65}
           height={320}
-          style={{ marginTop: 100 }}
+          style={{ marginTop: 10 }}
           yAxisSuffix=" $"
           chartConfig={{
             decimalPlaces: 1,
-            backgroundGradientFrom: "rgba(255, 255, 255, 0)",
-            backgroundGradientTo: "rgba(255, 255, 255, 0)",
+            backgroundGradientFrom: "#333533",
+            backgroundGradientTo: "#333533",
             color: (opacity = 1) => `rgba(245, 203, 92, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             propsForLabels: {
@@ -134,30 +139,43 @@ export default function DetailsScreen() {
           }}
           bezier
         />
-        <ThemedView
-          style={{
-            padding: 10,
-            backgroundColor: "rgba(245, 203, 92, 0.12)",
-            borderRadius: 10,
-          }}
+        <Collapsible
+          title={<ThemedText>Tableau des valeurs</ThemedText>}
+          showArrow
         >
-          {coin?.values?.map((value) => (
-            <ThemedText
-              style={{
-                fontSize: 12,
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <span style={{ opacity: 0.5, marginRight: 50 }}>
-                {new Date(value.date.seconds * 1000).toLocaleDateString()}
-              </span>
-              <span>{value.price} $</span>
-            </ThemedText>
-          ))}
-        </ThemedView>
+          <ThemedView
+            style={{
+              padding: 10,
+              backgroundColor: "#f5cb5c1f",
+              borderRadius: 10,
+            }}
+          >
+            {coin?.values?.map((value) => (
+              <ThemedView
+                key={value.id}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <ThemedText
+                  style={{ opacity: 0.5, marginRight: 50, fontSize: 12 }}
+                >
+                  {new Date(value.date.seconds * 1000).toLocaleDateString()}
+                </ThemedText>
+                <ThemedText>
+                  {value.price} <FontAwesome size={15} name="dollar" />
+                </ThemedText>
+              </ThemedView>
+            ))}
+          </ThemedView>
+        </Collapsible>
+        <Collapsible
+          title={<ThemedText>Images de la monnaie</ThemedText>}
+          showArrow
+        ></Collapsible>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -178,7 +196,7 @@ const styles = StyleSheet.create({
   },
   headerImage: {
     color: "#F5CB5C",
-    bottom: -90,
+    bottom: -50,
     left: -35,
     position: "absolute",
   },

@@ -1,56 +1,19 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { Wallet } from "@/components/icons/WalletIcon";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import {
-  Alert,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  useColorScheme,
-} from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { auth, db } from "@/firebaseConfig";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { Link, router } from "expo-router";
-import Divider from "@/components/Divider";
-import { useEffect, useState } from "react";
-import {
-  collection,
-  documentId,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { CoinType } from "@/constants/Coin";
-import Coin from "@/components/Coin";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Button, StyleSheet } from "react-native";
+import { getAuth, signOut } from "firebase/auth";
+import { router } from "expo-router";
 import WalletProvider from "@/components/WalletProvider";
+import { Collapsible } from "@/components/Collapsible";
+import AddCoinInWallet from "@/components/addCoinInWallet";
+import Login from "@/components/login";
+import { useState } from "react";
 
 const WalletPage = () => {
-  const { control, handleSubmit } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
   const authenticated = getAuth();
-
-  const onSubmit = async (data: any) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      Alert.alert("Connexion authorisé !");
-      router.replace("/wallet");
-    } catch (err) {
-      Alert.alert("Erreur !");
-    }
-  };
+  const [reload, setReload] = useState(true);
 
   const logOut = () => {
     signOut(authenticated).then(() => {
@@ -66,39 +29,7 @@ const WalletPage = () => {
           <FontAwesome5 size={150} name="wallet" style={styles.headerImage} />
         }
       >
-        <ThemedText type="title">Connexion</ThemedText>
-        <ThemedView>
-          <ThemedText>Email</ThemedText>
-          <Controller
-            control={control}
-            name={"email"}
-            render={({ field: { value, onChange, onBlur } }) => (
-              <TextInput
-                placeholder="email"
-                style={styles.input}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-              />
-            )}
-          />
-          <ThemedText>Password</ThemedText>
-          <Controller
-            control={control}
-            name={"password"}
-            render={({ field: { value, onChange, onBlur } }) => (
-              <TextInput
-                placeholder="password"
-                style={styles.input}
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                //secureTextEntry
-              />
-            )}
-          />
-          <Button title="Connexion" onPress={handleSubmit(onSubmit)} />
-        </ThemedView>
+        <Login />
       </ParallaxScrollView>
     );
   } else {
@@ -109,11 +40,27 @@ const WalletPage = () => {
           <FontAwesome5 size={150} name="wallet" style={styles.headerImage} />
         }
       >
-        <Button title="Déconnexion" onPress={logOut} />
+        <Button title="Déconnexion" onPress={logOut} color={"#F5CB5C"} />
         <ThemedText type="title">
           Mon Portefeuille <Wallet />
         </ThemedText>
-        <WalletProvider authenticated={authenticated} />
+        <Collapsible
+          title={
+            <ThemedText style={{ flexDirection: "row", alignItems: "center" }}>
+              Ajouter une monnaies <FontAwesome5 size={15} name="plus" />
+            </ThemedText>
+          }
+        >
+          <AddCoinInWallet
+            authenticated={authenticated}
+            setReload={setReload}
+          />
+        </Collapsible>
+        <WalletProvider
+          authenticated={authenticated}
+          reload={reload}
+          setReload={setReload}
+        />
       </ParallaxScrollView>
     );
   }

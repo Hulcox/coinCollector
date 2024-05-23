@@ -15,7 +15,15 @@ import { useEffect, useState } from "react";
 import { Text, useColorScheme } from "react-native";
 import Coin from "./Coin";
 
-const WalletProvider = ({ authenticated }: { authenticated: any }) => {
+const WalletProvider = ({
+  authenticated,
+  reload,
+  setReload,
+}: {
+  authenticated: any;
+  reload: any;
+  setReload: any;
+}) => {
   const [coins, setCoins] = useState<any[]>([]);
   const [amount, setAmount] = useState<number>(0);
 
@@ -24,8 +32,10 @@ const WalletProvider = ({ authenticated }: { authenticated: any }) => {
   const color = { light: "black", dark: "white" };
 
   useEffect(() => {
-    requestWallet();
-  }, []);
+    if (reload) {
+      requestWallet();
+    }
+  }, [reload]);
 
   const requestWallet = async () => {
     try {
@@ -51,6 +61,7 @@ const WalletProvider = ({ authenticated }: { authenticated: any }) => {
         })
       );
       setCoins(data);
+      setReload(false);
 
       const totalAmount = data.reduce((acc: number, coin: any) => {
         return acc + coin.amount * coin.values[0].price;
