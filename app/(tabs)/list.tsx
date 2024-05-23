@@ -1,10 +1,10 @@
 import Avatar from "@/components/Avatar";
 import Coin from "@/components/Coin";
 import Divider from "@/components/Divider";
-import { Money } from "@/components/icons/Money";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Money } from "@/components/icons/Money";
 import { CoinType } from "@/constants/Coin";
 import { Value } from "@/constants/Value";
 import { db } from "@/firebaseConfig";

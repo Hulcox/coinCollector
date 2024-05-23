@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import { Money } from "@/components/icons/Money";
-=======
 import Avatar from "@/components/Avatar";
->>>>>>> 7005dc14394d1f8f5843e91706a93454c723f13e
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Coin } from "@/constants/Coin";
+import { CoinType } from "@/constants/Coin";
 import { db } from "@/firebaseConfig"; // Assurez-vous que c'est le chemin correct vers votre configuration Firebase
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useLocalSearchParams } from "expo-router";
@@ -22,7 +18,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 export default function DetailsScreen() {
-  const [coin, setCoin] = useState<Coin>();
+  const [coin, setCoin] = useState<CoinType>();
   const { id } = useLocalSearchParams();
 
   useEffect(() => {
