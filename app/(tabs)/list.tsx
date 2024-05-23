@@ -1,19 +1,19 @@
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { useEffect, useState } from "react";
-import { Button, StyleSheet, useColorScheme } from "react-native";
-import { collection, getDocs, DocumentData } from "firebase/firestore";
-import { db } from "@/firebaseConfig";
-import { ThemedText } from "@/components/ThemedText";
-import { Money } from "@/components/icons/Money";
-import { ThemedView } from "@/components/ThemedView";
-import Divider from "@/components/Divider";
 import Avatar from "@/components/Avatar";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import Coin from "@/components/Coin";
+import Divider from "@/components/Divider";
+import { Money } from "@/components/icons/Money";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { CoinType } from "@/constants/Coin";
 import { Value } from "@/constants/Value";
-import Coin from "@/components/Coin";
+import { db } from "@/firebaseConfig";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { Link } from "expo-router";
+import { DocumentData, collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { StyleSheet, useColorScheme } from "react-native";
 
 const ListPage = () => {
   const [coins, setCoins] = useState<CoinType[]>([]);
@@ -24,16 +24,6 @@ const ListPage = () => {
 
   const reloadPage = () => {
     setReload(true);
-  };
-
-  const valueRequest = async (coin: DocumentData): Promise<Value[]> => {
-    const valuesSnapshot = await getDocs(collection(coin.ref, "value"));
-    const values = valuesSnapshot.docs.map((value) => ({
-      id: value.id,
-      ...value.data(),
-    }));
-
-    return values.sort((a: any, b: any) => b.date.seconds - a.date.seconds);
   };
 
   useEffect(() => {
@@ -53,6 +43,16 @@ const ListPage = () => {
       request();
     }
   }, [reload]);
+
+  const valueRequest = async (coin: DocumentData): Promise<Value[]> => {
+    const valuesSnapshot = await getDocs(collection(coin.ref, "value"));
+    const values = valuesSnapshot.docs.map((value) => ({
+      id: value.id,
+      ...value.data(),
+    }));
+
+    return values.sort((a: any, b: any) => b.date.seconds - a.date.seconds);
+  };
 
   return (
     <ParallaxScrollView
