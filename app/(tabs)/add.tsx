@@ -19,9 +19,9 @@ const AddPage = () => {
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
+          Nous avons besoin d'une permission pour utilisé l'appareil photo
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button onPress={requestPermission} title="Demande de permission" />
       </View>
     );
   }

@@ -46,8 +46,9 @@ const AddCoinInWallet = ({
         amount: Number(data.amount),
       });
 
-      Alert.alert("Monnaies ajouter !");
       setReload(true);
+
+      Alert.alert("Monnaies ajouter !");
     } catch (err) {
       Alert.alert("Erreur !");
     }
