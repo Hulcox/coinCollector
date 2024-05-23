@@ -1,4 +1,4 @@
-import { Money } from "@/components/Money";
+import { Money } from "@/components/icons/Money";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";

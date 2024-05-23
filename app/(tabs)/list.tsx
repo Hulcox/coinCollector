@@ -5,17 +5,18 @@ import { Button, StyleSheet, useColorScheme } from "react-native";
 import { collection, getDocs, DocumentData } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { ThemedText } from "@/components/ThemedText";
-import { Money } from "@/components/Money";
+import { Money } from "@/components/icons/Money";
 import { ThemedView } from "@/components/ThemedView";
 import Divider from "@/components/Divider";
 import Avatar from "@/components/Avatar";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { Coin } from "@/constants/Coin";
+import { CoinType } from "@/constants/Coin";
 import { Value } from "@/constants/Value";
+import Coin from "@/components/Coin";
 
 const ListPage = () => {
-  const [coins, setCoins] = useState<Coin[]>([]);
+  const [coins, setCoins] = useState<CoinType[]>([]);
   const [reload, setReload] = useState(true);
   const colorScheme = useColorScheme() ?? "light";
 
@@ -83,47 +84,7 @@ const ListPage = () => {
               params: { id: coin.id },
             }}
           >
-            <ThemedView style={styles.coinList}>
-              <ThemedView style={styles.coinStyle}>
-                <Avatar>
-                  <ThemedText type="defaultBold" style={{ color: "black" }}>
-                    {coin.shortName}
-                  </ThemedText>
-                </Avatar>
-                <ThemedView style={styles.coinNameStyle}>
-                  <ThemedText type="defaultBold">{coin.shortName}</ThemedText>
-                  <ThemedText
-                    style={{ fontStyle: "italic" }}
-                    darkColor="#333533"
-                  >
-                    {coin.name}
-                  </ThemedText>
-                </ThemedView>
-              </ThemedView>
-
-              <ThemedView
-                style={{ flexDirection: "column", alignItems: "flex-end" }}
-              >
-                <ThemedView style={styles.titleContainer}>
-                  <ThemedText>
-                    {coin.values ? coin.values[0]?.price : "0"}
-                  </ThemedText>
-                  <FontAwesome
-                    size={15}
-                    name="dollar"
-                    color={color[colorScheme]}
-                  />
-                </ThemedView>
-
-                <ThemedText style={{ fontSize: 12 }}>
-                  {coin.values
-                    ? new Date(
-                        coin.values[0]?.date?.seconds * 1000
-                      ).toLocaleDateString()
-                    : "0"}
-                </ThemedText>
-              </ThemedView>
-            </ThemedView>
+            <Coin coin={coin} isInWallet={false} />
           </Link>
           <Divider type="horizontal" />
         </ThemedView>
