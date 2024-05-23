@@ -69,33 +69,36 @@ export default function DetailsScreen() {
       }
     >
       <ThemedView
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
-      >
-        <ThemedView style={styles.titleStyle}>
-          <ThemedText
-            style={{
-              fontSize: 40,
-              fontWeight: "bold",
-              color: "#F5CB5C",
-              fontFamily: "SpaceMono",
-            }}
-          >
-            {coin.shortName}
-          </ThemedText>
-          <Avatar>
-            <ThemedText type="defaultBold" style={{ color: "black" }}>
-              {coin.shortName}
-            </ThemedText>
-          </Avatar>
-        </ThemedView>
-      </ThemedView>
-      <ThemedView
         style={{
-          margin: 30,
-          width: "90%",
-          backgroundColor: "#333533",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          gap: 20,
         }}
       >
+        <ThemedView
+          style={{ flexDirection: "row", justifyContent: "space-between" }}
+        >
+          <ThemedView style={styles.titleStyle}>
+            <ThemedText
+              style={{
+                fontSize: 40,
+                fontWeight: "bold",
+                color: "#F5CB5C",
+                fontFamily: "SpaceMono",
+              }}
+            >
+              {coin.shortName}
+            </ThemedText>
+            <Avatar>
+              <ThemedText type="defaultBold" style={{ color: "black" }}>
+                {coin.shortName}
+              </ThemedText>
+            </Avatar>
+          </ThemedView>
+        </ThemedView>
+        <ThemedText type="defaultBold" style={{ color: "black" }}>
+          {coin.name}
+        </ThemedText>
         <LineChart
           data={{
             labels:
@@ -110,15 +113,18 @@ export default function DetailsScreen() {
             ],
           }}
           width={Dimensions.get("window").width} // from react-native
-          height={220}
-          yAxisLabel="$"
-          yAxisInterval={1} // optional, defaults to 1
+          height={320}
+          style={{ marginTop: 100 }}
+          yAxisSuffix=" $"
           chartConfig={{
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1,
+            backgroundGradientFrom: "rgba(255, 255, 255, 0)",
+            backgroundGradientTo: "rgba(255, 255, 255, 0)",
             color: (opacity = 1) => `rgba(245, 203, 92, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
+            propsForLabels: {
+              fontSize: 11,
+              fontFamily: "sans-serif",
             },
             propsForDots: {
               r: "6",
@@ -128,6 +134,30 @@ export default function DetailsScreen() {
           }}
           bezier
         />
+        <ThemedView
+          style={{
+            padding: 10,
+            backgroundColor: "rgba(245, 203, 92, 0.12)",
+            borderRadius: 10,
+          }}
+        >
+          {coin?.values?.map((value) => (
+            <ThemedText
+              style={{
+                fontSize: 12,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <span style={{ opacity: 0.5, marginRight: 50 }}>
+                {new Date(value.date.seconds * 1000).toLocaleDateString()}
+              </span>
+              <span>{value.price} $</span>
+            </ThemedText>
+          ))}
+        </ThemedView>
       </ThemedView>
     </ParallaxScrollView>
   );
