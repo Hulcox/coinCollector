@@ -13,40 +13,43 @@ const Coin = ({ coin, isInWallet }: { coin: CoinType; isInWallet: any }) => {
 
   return (
     <Link
-      style={styles.coinList}
       href={{
         pathname: "/coinDetail/[coinId]",
         params: { id: coin.id },
       }}
     >
-      <ThemedView style={styles.coinStyle}>
-        {isInWallet && <ThemedText type="subtitle">{coin.amount} X</ThemedText>}
-        <Avatar>
-          <ThemedText type="defaultBold" style={{ color: "black" }}>
-            {coin.shortName}
-          </ThemedText>
-        </Avatar>
-        <ThemedView style={styles.coinNameStyle}>
-          <ThemedText type="defaultBold">{coin.shortName}</ThemedText>
-          <ThemedText style={{ fontStyle: "italic" }} darkColor="#777">
-            {coin.name}
-          </ThemedText>
-        </ThemedView>
-      </ThemedView>
-
-      <ThemedView style={{ flexDirection: "column", alignItems: "flex-end" }}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText>{coin.values ? coin.values[0]?.price : "0"}</ThemedText>
-          <FontAwesome size={15} name="dollar" color={color[colorScheme]} />
+      <ThemedView style={styles.coinList}>
+        <ThemedView style={styles.coinStyle}>
+          {isInWallet && (
+            <ThemedText type="subtitle">{coin.amount} X</ThemedText>
+          )}
+          <Avatar>
+            <ThemedText type="defaultBold" style={{ color: "black" }}>
+              {coin.shortName}
+            </ThemedText>
+          </Avatar>
+          <ThemedView style={styles.coinNameStyle}>
+            <ThemedText type="defaultBold">{coin.shortName}</ThemedText>
+            <ThemedText style={{ fontStyle: "italic" }} darkColor="#777">
+              {coin.name}
+            </ThemedText>
+          </ThemedView>
         </ThemedView>
 
-        <ThemedText style={{ fontSize: 12 }}>
-          {coin.values
-            ? new Date(
-                coin.values[0]?.date?.seconds * 1000
-              ).toLocaleDateString()
-            : "0"}
-        </ThemedText>
+        <ThemedView style={{ flexDirection: "column", alignItems: "flex-end" }}>
+          <ThemedView style={styles.titleContainer}>
+            <ThemedText>{coin.values ? coin.values[0]?.price : "0"}</ThemedText>
+            <FontAwesome size={15} name="dollar" color={color[colorScheme]} />
+          </ThemedView>
+
+          <ThemedText style={{ fontSize: 12 }}>
+            {coin.values
+              ? new Date(
+                  coin.values[0]?.date?.seconds * 1000
+                ).toLocaleDateString()
+              : "0"}
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
     </Link>
   );
