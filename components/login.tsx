@@ -38,7 +38,6 @@ const Login = ({ setReload }: { setReload: any }) => {
           name={"email"}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              placeholder="email"
               style={styles.input}
               value={value}
               onChangeText={onChange}
@@ -52,7 +51,6 @@ const Login = ({ setReload }: { setReload: any }) => {
           name={"password"}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              placeholder="password"
               style={styles.input}
               value={value}
               onChangeText={onChange}
@@ -75,12 +73,10 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
-    borderWidth: 1,
     padding: 10,
     color: "white",
-    borderColor: "#F5CB5C",
     borderRadius: 10,
-    backgroundColor: "#715E2E",
+    backgroundColor: "rgba(255,255,255,0.15)",
   },
 });
 

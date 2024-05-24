@@ -4,6 +4,7 @@ import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import { FontAwesome } from "@expo/vector-icons";
 import { StyleSheet, useColorScheme } from "react-native";
+import { Link } from "expo-router";
 
 const Coin = ({ coin, isInWallet }: { coin: CoinType; isInWallet: any }) => {
   const colorScheme = useColorScheme() ?? "light";
@@ -11,7 +12,13 @@ const Coin = ({ coin, isInWallet }: { coin: CoinType; isInWallet: any }) => {
   const color = { light: "black", dark: "white" };
 
   return (
-    <ThemedView style={styles.coinList}>
+    <Link
+      style={styles.coinList}
+      href={{
+        pathname: "/coinDetail/[coinId]",
+        params: { id: coin.id },
+      }}
+    >
       <ThemedView style={styles.coinStyle}>
         {isInWallet && <ThemedText type="subtitle">{coin.amount} X</ThemedText>}
         <Avatar>
@@ -21,7 +28,7 @@ const Coin = ({ coin, isInWallet }: { coin: CoinType; isInWallet: any }) => {
         </Avatar>
         <ThemedView style={styles.coinNameStyle}>
           <ThemedText type="defaultBold">{coin.shortName}</ThemedText>
-          <ThemedText style={{ fontStyle: "italic" }} darkColor="#333533">
+          <ThemedText style={{ fontStyle: "italic" }} darkColor="#777">
             {coin.name}
           </ThemedText>
         </ThemedView>
@@ -41,7 +48,7 @@ const Coin = ({ coin, isInWallet }: { coin: CoinType; isInWallet: any }) => {
             : "0"}
         </ThemedText>
       </ThemedView>
-    </ThemedView>
+    </Link>
   );
 };
 

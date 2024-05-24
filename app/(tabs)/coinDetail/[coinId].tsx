@@ -35,6 +35,7 @@ export default function DetailsScreen() {
         ...coin.data(),
         values: values.docs.map((value) => ({ id: value.id, ...value.data() })),
       };
+      data.values.sort((a: any, b: any) => a.date - b.date);
       setCoin(data);
     };
 
@@ -83,7 +84,7 @@ export default function DetailsScreen() {
             alignItems: "center",
           }}
         >
-          <ThemedView style={{ flexDirection: "column", alignItems: "center" }}>
+          <ThemedView style={{ flexDirection: "column", gap: 10 }}>
             <Text
               style={{
                 fontSize: 50,
@@ -94,9 +95,7 @@ export default function DetailsScreen() {
             >
               {coin.shortName}
             </Text>
-            <ThemedText type="defaultBold" style={{ color: "white" }}>
-              {coin.name}
-            </ThemedText>
+            <ThemedText darkColor="#777">{coin.name}</ThemedText>
           </ThemedView>
           <Avatar>
             <ThemedText type="defaultBold" style={{ color: "black" }}>
@@ -123,8 +122,6 @@ export default function DetailsScreen() {
           yAxisSuffix=" $"
           chartConfig={{
             decimalPlaces: 1,
-            backgroundGradientFrom: "#333533",
-            backgroundGradientTo: "#333533",
             color: (opacity = 1) => `rgba(245, 203, 92, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             propsForLabels: {
@@ -146,8 +143,6 @@ export default function DetailsScreen() {
           <ThemedView
             style={{
               padding: 10,
-              backgroundColor: "#f5cb5c1f",
-              borderRadius: 10,
             }}
           >
             {coin?.values?.map((value) => (
