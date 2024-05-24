@@ -18,10 +18,22 @@ const AddPage = () => {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>
+        <ThemedText style={{ textAlign: "center", marginBottom: 20 }}>
           Nous avons besoin d'une permission pour utilisé l'appareil photo
-        </Text>
-        <Button onPress={requestPermission} title="Demande de permission" />
+        </ThemedText>
+        <View
+          style={{
+            height: 50,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            color={"#F5CB5C"}
+            onPress={requestPermission}
+            title="Demande de permission"
+          />
+        </View>
       </View>
     );
   }
@@ -52,6 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    padding: 20,
   },
   camera: {
     flex: 1,

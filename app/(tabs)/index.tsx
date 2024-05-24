@@ -62,7 +62,11 @@ const ListPage = () => {
       }
     >
       <ThemedView
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginBottom: 40,
+        }}
       >
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Liste des Coins</ThemedText>
@@ -76,16 +80,14 @@ const ListPage = () => {
         />
       </ThemedView>
       {coins?.map((coin, key: any) => (
-        <ThemedView key={key} style={{ flexDirection: "column", gap: 10 }}>
-          <Link
-            style={{ width: "100%" }}
-            href={{
-              pathname: "/coinDetail/[coinId]",
-              params: { id: coin.id },
-            }}
-          >
-            <Coin coin={coin} isInWallet={false} />
-          </Link>
+        <ThemedView
+          key={key}
+          style={{
+            flexDirection: "column",
+            gap: 20,
+          }}
+        >
+          <Coin coin={coin} isInWallet={false} />
           <Divider type="horizontal" />
         </ThemedView>
       ))}

@@ -30,7 +30,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="add"
         options={{
-          title: "Ajouter",
+          title: "Ajouter une monnaie",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? "add" : "add-outline"} color={color} />
           ),
@@ -39,7 +39,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wallet"
         options={{
-          title: "Portefeuil",
+          title: "Portefeuille",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "wallet" : "wallet-outline"}
