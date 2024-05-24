@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { router } from "expo-router";
 
-const Login = () => {
+const Login = ({ setReload }: { setReload: any }) => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -21,8 +21,9 @@ const Login = () => {
         data.email,
         data.password
       );
-      Alert.alert("Connexion réussi !");
+      Alert.alert("Connexion réussie !");
       router.replace("/wallet");
+      setReload(true);
     } catch (err) {
       Alert.alert("Erreur !");
     }

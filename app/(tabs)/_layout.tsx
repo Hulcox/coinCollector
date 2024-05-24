@@ -39,7 +39,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wallet"
         options={{
-          title: "Portefeuil",
+          title: "Portefeuille",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "wallet" : "wallet-outline"}

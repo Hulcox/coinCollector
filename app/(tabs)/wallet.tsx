@@ -29,7 +29,7 @@ const WalletPage = () => {
           <FontAwesome5 size={150} name="wallet" style={styles.headerImage} />
         }
       >
-        <Login />
+        <Login setReload={setReload} />
       </ParallaxScrollView>
     );
   } else {
